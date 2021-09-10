@@ -1,0 +1,198 @@
+    <!--spring的依赖注入
+    依赖注入：
+    Dependency Injection，依赖关系的维护就称为依赖注入
+    能注入的数据有三类：
+        （1）基本类型和String
+        （2）其他bean类型（在配置文件中注解配置过的bean）
+        （3）复杂类型/复合类型
+    注入的方式有三种：
+        （1）使用构造函数提供
+        （2）使用set方法提供
+        （3）使用注解提供
+    IOC的作用：
+        降低程序间的耦合（依赖关系）
+     依赖关系的管理都交给spring来维护
+    -->
+    <!--构造函数注入
+    使用的标签: constructor-arg
+    标签出现的位置： bean标签的内部
+    标签中的属性：
+    type:用于指定要注入的数据类型，该类型也是构造函数中某个参数的数据类型
+    index:用于指定要注入的数据给构造函数中指定索引位置的参数赋值
+    name:用于指定给构造函数中指定名称的参数赋值
+    value:用于指定基本数据类型和String类型的数据
+    ref:用于指定其他的bean类型数据，也就是在spring容器中出现过的bean对象
+    -->
+    <bean id="accountService" class="test.easy.service.impl.AccountServiceImpl">
+        <constructor-arg name="age" value="10"></constructor-arg>
+        <constructor-arg name="name" value="test"></constructor-arg>
+        <constructor-arg name="birthday" ref="now"></constructor-arg>
+    </bean>
+
+    <!--配置一个日期对象-->
+    <bean id="now" class="java.util.Date"></bean>
+    
+    
+    
+    public class AccountServiceImpl implements IAccountService {
+    private String name;
+    private Integer age;
+    private Date birthday;
+
+    public AccountServiceImpl (String name, Integer age, Date birthday) {
+        this.name = name;
+        this.age = age;
+        this.birthday = birthday;
+    }
+
+    public void saveAccount() {
+        System.out.println("service中的saveAccount方法执行了" + name  + "," + age + "," + birthday);
+    }
+}
+
+
+    <!--set方法注入
+        涉及的标签：property
+        出现的位置：bean标签内部
+        标签的属性：
+            name:用于指定注入时调用的set方法名称
+            value:用于指定基本数据类型和String类型的数据
+            ref:用于指定其他的bean类型数据，也就是在spring容器中出现过的bean对象
+
+    -->
+    <bean id="accountService" class="test.easy.service.impl.AccountServiceImpl2">
+        <property name="name" value="str"></property>
+        <property name="age" value="12"></property>
+        <property name="birthday" ref="now"></property>
+    </bean>
+
+    <bean id="now" class="java.util.Date"></bean>
+    
+    
+package test.easy.service.impl;
+
+import test.easy.service.IAccountService;
+
+import java.util.Date;
+
+public class AccountServiceImpl2 implements IAccountService {
+    private String name;
+    private Integer age;
+    private Date birthday;
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public void saveAccount() {
+        System.out.println("service中的saveAccount方法执行了" + name  + "," + age + "," + birthday);
+    }
+}
+   
+
+
+<!--
+        复杂类型注入/集合类型注入
+        用于给list结构集合注入数据的标签： list array set
+        用于给map结构集合注入的标签：map props
+        结构相同，标签可以互换
+    -->
+    <bean id="accountService" class="test.easy.service.impl.AccountServiceImpl3">
+        <property name="myStr">
+            <array>
+                <value>11</value>
+                <value>22</value>
+                <value>33</value>
+                <value>44</value>
+            </array>
+        </property>
+        <property name="myList">
+            <list>
+                <value>11</value>
+                <value>22</value>
+                <value>33</value>
+                <value>44</value>
+            </list>
+        </property>
+        <property name="mySet">
+            <set>
+                <value>11</value>
+                <value>22</value>
+                <value>33</value>
+                <value>44</value>
+            </set>
+        </property>
+        <property name="myMap">
+            <map>
+                <entry key="test" value="1"></entry>
+                <entry key="test2" value="2"></entry>
+            </map>
+        </property>
+        <property name="myProps">
+            <props>
+                <prop key="prop-test">test1</prop>
+                <prop key="prop-test2">test2</prop>
+            </props>
+        </property>
+    </bean>
+
+</beans>
+
+
+
+package test.easy.service.impl;
+
+import test.easy.service.IAccountService;
+
+import java.util.*;
+
+public class AccountServiceImpl3 implements IAccountService {
+    private String[] myStr;
+    private List<String> myList;
+    private Set<String> mySet;
+    private Map<String, String> myMap;
+    private Properties myProps;
+
+    public void setMyStr(String[] myStr) {
+        this.myStr = myStr;
+    }
+
+    public void setMyList(List<String> myList) {
+        this.myList = myList;
+    }
+
+    public void setMySet(Set<String> mySet) {
+        this.mySet = mySet;
+    }
+
+    public void setMyMap(Map<String, String> myMap) {
+        this.myMap = myMap;
+    }
+
+    public void setMyProps(Properties myProps) {
+        this.myProps = myProps;
+    }
+
+    public void saveAccount() {
+        System.out.println(Arrays.toString(myStr));
+        System.out.println(myList);
+        System.out.println(mySet);
+        System.out.println(myMap);
+        System.out.println(myProps);
+    }
+}
+
+
+myStr ->      [11, 22, 33, 44]
+myList ->      [11, 22, 33, 44]
+mySet ->      [11, 22, 33, 44]
+myMap ->      {test=1, test2=2}
+myProps ->      {prop-test=test1, prop-test2=test2}

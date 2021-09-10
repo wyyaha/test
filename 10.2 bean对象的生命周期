@@ -1,0 +1,68 @@
+ <!--bean对象的生命周期
+    单例对象
+        出生：当容器创建时对象出生
+        活着：只要容器还在，对象一直在
+        死亡：容器销毁，对象消失
+
+    多例对象：
+        出生： 当使用对象时，对象出生
+        活着：对象在使用过程中一直存在
+        死亡：当对象长时间不用且没有别的对象引用时由java的垃圾回收器回收
+    -->
+    <bean id="accountService" class="test.easy.service.impl.AccountServiceImpl" scope="prototype" init-method="init" destroy-method="destory"></bean>
+    
+   
+AccountServiceImpl文件
+package test.easy.service.impl;
+
+import test.easy.service.IAccountService;
+
+public class AccountServiceImpl implements IAccountService {
+    public AccountServiceImpl () {
+        System.out.println("对象创建了");
+    }
+    public void saveAccount() {
+        System.out.println("文件保存了");
+    }
+
+    public void init() {
+        System.out.println("对象初始化了");
+    }
+
+    public void destory() {
+        System.out.println("对象销毁了");
+    }
+}
+
+
+
+client.java文件
+
+package test.easy.ui;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import test.easy.service.IAccountService;
+
+/**
+ *模拟一个表现层，用于调用业务层
+ */
+public class client {
+
+    /**
+     * 获取spring的核心容器，并根据id获取对象
+     * @param args
+     */
+    public static void main(String[] args) {
+//        1.获取核心容器对象
+//        ApplicationContext ac = new ClassPathXmlApplicationContext("bean.xml");
+        ClassPathXmlApplicationContext ac = new ClassPathXmlApplicationContext("bean.xml");
+//        2.根据id获取bean对象
+        IAccountService as = (IAccountService)ac.getBean("accountService");
+        as.saveAccount();
+
+        //关闭容器,销毁对象
+        ac.close();
+    }
+}
+
