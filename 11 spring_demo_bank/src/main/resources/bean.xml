@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="proxyAccountService" factory-bean="beanFactory" factory-method="getAccountService"></bean>
+    <bean id="beanFactory" class="com.test.factory.BeanFactory">
+        <property name="accountService" ref="accountService"></property>
+        <property name="tsManager" ref="tsManager"></property>
+    </bean>
+    <!--使用set方法注入-->
+    <bean id="accountService" class="com.test.service.impl.AccountServiceImpl">
+        <property name="accountDao" ref="accountDao "></property>
+        <property name="tsManager" ref="tsManager"></property>
+    </bean>
+    <!--使用set方法注入-->
+    <bean id="accountDao " class="com.test.dao.impl.AccountDaoImpl">
+        <property name="runner" ref="runner"></property>
+        <property name="connectionUtils" ref="connectionUtils"></property>
+    </bean>
+    <!--使用构造函数注入-->
+    <bean id="runner" class="org.apache.commons.dbutils.QueryRunner" scope="prototype">
+<!--        <constructor-arg name="ds" ref="dataSource"></constructor-arg>-->
+    </bean>
+    <!--使用set方法注入-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="com.mysql.cj.jdbc.Driver"></property>
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/test?useSSL=false&amp;allowPublicKeyRetrieval=true"></property>
+        <property name="user" value="wyy"></property>
+        <property name="password" value="Pactera@123"></property>
+    </bean>
+
+    <!--配置Connection的工具类 connectionUtils-->
+    <bean id="connectionUtils" class="com.test.utils.ConnectionUtils">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+    <bean id="tsManager" class="com.test.utils.TransactionManager">
+        <property name="connectionUtils" ref="connectionUtils"></property>
+    </bean>
+</beans>
