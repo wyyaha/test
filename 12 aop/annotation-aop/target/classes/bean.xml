@@ -1,0 +1,19 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<beans xmlns="http://www.springframework.org/schema/beans"-->
+<!--       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+<!--       xmlns:aop="http://www.springframework.org/schema/aop"-->
+<!--       xmlns:context="http://www.springframework.org/schema/context"-->
+<!--       xsi:schemaLocation="http://www.springframework.org/schema/beans-->
+<!--        https://www.springframework.org/schema/beans/spring-beans.xsd-->
+<!--        http://www.springframework.org/schema/aop-->
+<!--        https://www.springframework.org/schema/aop/spring-aop.xsd-->
+<!--        http://www.springframework.org/schema/context-->
+<!--        https://www.springframework.org/schema/context/spring-context.xsd">-->
+<!--&lt;!&ndash;    &lt;!&ndash;配置spring创建容器时要扫描的包&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;    <context:component-scan base-package="com"></context:component-scan>&ndash;&gt;-->
+<!--&lt;!&ndash;    &lt;!&ndash;配置spring的ioc,把service对象配置进来&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;    <bean id="accountService" class="com.service.impl.AccountServiceImpl"></bean>&ndash;&gt;-->
+<!--&lt;!&ndash;    &lt;!&ndash;配置spring开启注解AOP的支持&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;    <aop:aspectj-autoproxy></aop:aspectj-autoproxy>&ndash;&gt;-->
+
+<!--</beans>-->
